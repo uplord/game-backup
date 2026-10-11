@@ -1,0 +1,11 @@
+.godot/
+.DS_Store
+._*
+__MACOSX/
+.vscode/
+.idea/
+.env
+.env.*
+!.env.example
+*.import
+addons
