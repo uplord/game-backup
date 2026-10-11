@@ -1,0 +1,1 @@
+Phase 2.1 scene fix: Godot .tscn PackedVector2Array properties use flattened coordinate pairs, not GDScript array constructors. Converted 14 polygons to serialized PackedVector2Array(x1, y1, x2, y2, ...). The player preview scene is unchanged.

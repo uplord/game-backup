@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://characters/player/player_controller.tscn" id="1_player"]
+[ext_resource type="Script" path="res://characters/player/movement_preview.gd" id="2_preview"]
+
+[ext_resource type="Script" path="res://characters/player/map_camera.gd" id="3_camera"]
+
+[node name="MovementPreview" type="Node2D"]
+script = ExtResource("2_preview")
+
+[node name="PlayerController" parent="." instance=ExtResource("1_player")]
+position = Vector2(960, 640)
+movement_bounds = Rect2(0, 0, 3200, 1080)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 540)
+script = ExtResource("3_camera")
+world_bounds = Rect2(0, 0, 3200, 1080)

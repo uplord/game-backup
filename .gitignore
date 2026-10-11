@@ -8,4 +8,6 @@ __MACOSX/
 .env.*
 !.env.example
 *.import
-addons
+
+# Third-party Godot addons (managed separately)
+addons/
