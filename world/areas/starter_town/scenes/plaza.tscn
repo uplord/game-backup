@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3]
+[ext_resource type="PackedScene" path="res://world/components/world_entity.tscn" id="9_entity"]
+[ext_resource type="PackedScene" path="res://world/scenes/base_map.tscn" id="1_base"]
+[ext_resource type="Script" path="res://world/components/map_exit.gd" id="2_exit"]
+[sub_resource type="RectangleShape2D" id="Shape_0"]
+size = Vector2(120, 430)
+
+[node name="Plaza" instance=ExtResource("1_base")]
+map_id = "starter_town"
+scene_id = "plaza"
+map_size = Vector2(3200, 1080)
+player_visual_scale = 1.0
+player_spawn = Vector2(500, 720)
+ground_color = Color(0.2, 0.38, 0.24, 1)
+
+[node name="default" type="Marker2D" parent="Spawns" index="0"]
+position = Vector2(500, 720)
+
+[node name="west" type="Marker2D" parent="Spawns" index="0"]
+position = Vector2(250, 720)
+
+[node name="Exit_east" type="Area2D" parent="Exits" index="0"]
+position = Vector2(3050, 720)
+script = ExtResource("2_exit")
+destination_area = "starter_town"
+destination_scene = "east_gate"
+destination_spawn = "west"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exits/Exit_east" index="0"]
+shape = SubResource("Shape_0")
+
+[node name="Guide" parent="Entities" index="0" instance=ExtResource("9_entity")]
+position = Vector2(620, 760)
+entity_type = "npc"
+definition_id = "village_guide"
+placement_id = "guide_01"
+marker_color = Color(0.25, 0.55, 0.95, 1)
+
+[node name="NoticeBoard" parent="Entities" index="0" instance=ExtResource("9_entity")]
+position = Vector2(890, 760)
+entity_type = "object"
+definition_id = "notice_board"
+placement_id = "board_01"
+marker_color = Color(0.75, 0.55, 0.2, 1)
