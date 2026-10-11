@@ -1,6 +1,6 @@
 extends Node
 class_name UplordTargetingController
-## One selected entity per loaded scene. Gameplay actions come in Phase 4.2+.
+## One selected entity per loaded scene; coordinates approach and interaction state.
 signal target_changed(entity: UplordWorldEntity)
 signal target_range_changed(in_range: bool)
 ## Emitted when an approach started by entity click or Interact reaches its slot.
@@ -31,47 +31,14 @@ func configure(map: UplordMapBase) -> void:
         _entities.append(entity)
         entity.interaction_requested.connect(select_target)
         entity.tree_exiting.connect(_on_entity_exiting.bind(entity))
-    var canvas := CanvasLayer.new()
-    canvas.name = "TargetHUD"
+    # HUD layout lives in an editable scene rather than being assembled in code.
+    var hud_scene: PackedScene = preload("res://world/components/interaction_hud.tscn")
+    var canvas: CanvasLayer = hud_scene.instantiate() as CanvasLayer
     add_child(canvas)
-    var panel := PanelContainer.new()
-    panel.name = "TargetPanel"
-    panel.set_anchors_preset(Control.PRESET_CENTER_TOP)
-    panel.position = Vector2(12, 12)
-    canvas.add_child(panel)
-    _label = Label.new()
-    _label.text = ""
-    panel.add_child(_label)
-    panel.visible = false
-    # Keep the interaction HUD in screen space, independent of map zoom.
-    var hud := Control.new()
-    hud.name = "InteractionHUD"
-    hud.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-    hud.mouse_filter = Control.MOUSE_FILTER_IGNORE
-    canvas.add_child(hud)
-    var action_box := VBoxContainer.new()
-    action_box.name = "ActionBox"
-    action_box.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-    action_box.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-    action_box.grow_vertical = Control.GROW_DIRECTION_BEGIN
-    action_box.offset_left = -220.0
-    action_box.offset_top = -106.0
-    action_box.offset_right = -20.0
-    action_box.offset_bottom = -20.0
-    hud.add_child(action_box)
-    _feedback = Label.new()
-    _feedback.name = "InteractionFeedback"
-    _feedback.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-    _feedback.text = ""
-    action_box.add_child(_feedback)
-    _interact_button = Button.new()
-    _interact_button.name = "InteractButton"
-    _interact_button.text = "Interact"
-    _interact_button.custom_minimum_size = Vector2(180, 48)
-    _interact_button.disabled = true
-    _interact_button.visible = false
+    _label = canvas.get_node("TargetPanel/TargetLabel") as Label
+    _feedback = canvas.get_node("InteractionHUD/ActionBox/InteractionFeedback") as Label
+    _interact_button = canvas.get_node("InteractionHUD/ActionBox/InteractButton") as Button
     _interact_button.pressed.connect(activate_interaction)
-    action_box.add_child(_interact_button)
 
 func select_target(entity: UplordWorldEntity) -> void:
     if not is_instance_valid(entity) or not _entities.has(entity):
@@ -144,7 +111,7 @@ func _physics_process(_delta: float) -> void:
         _player.set_destination(slot_point)
 
 func _update_nearby_entity() -> void:
-    # Selection only highlights. Proximity, not selection, controls visibility.
+    # Walking near an entity reveals its action without selecting or moving.
     var nearest: UplordWorldEntity = null
     var nearest_distance: float = INF
     if is_instance_valid(selected_entity) and _within_range(selected_entity):

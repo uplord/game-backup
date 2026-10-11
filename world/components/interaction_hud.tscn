@@ -1,0 +1,44 @@
+[gd_scene format=3]
+
+[node name="TargetHUD" type="CanvasLayer"]
+
+[node name="TargetPanel" type="PanelContainer" parent="."]
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 180.0
+offset_bottom = 40.0
+visible = false
+mouse_filter = 2
+
+[node name="TargetLabel" type="Label" parent="TargetPanel"]
+text = ""
+
+[node name="InteractionHUD" type="Control" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ActionBox" type="VBoxContainer" parent="InteractionHUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_top = -106.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="InteractionFeedback" type="Label" parent="InteractionHUD/ActionBox"]
+horizontal_alignment = 2
+
+[node name="InteractButton" type="Button" parent="InteractionHUD/ActionBox"]
+custom_minimum_size = Vector2(180, 48)
+visible = false
+disabled = true
+text = "Interact"

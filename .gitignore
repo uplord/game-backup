@@ -7,7 +7,5 @@ __MACOSX/
 .env
 .env.*
 !.env.example
-*.import
 
-# Third-party Godot addons (managed separately)
-addons/
+# Keep addons/, *.uid, and source asset import settings under version control.
