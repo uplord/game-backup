@@ -1,7 +1,7 @@
 extends RefCounted
 class_name UplordContentValidator
 ## Validates local and CMS-published content without modifying it.
-const TYPES := ["items", "enemies", "skills", "areas", "resources", "recipes", "npcs", "quests", "loot_tables", "shops"]
+const TYPES := ["items", "enemies", "skills", "areas", "resources", "recipes", "npcs", "quests", "loot_tables", "shops", "objects"]
 static func validate_bundle(bundle: Dictionary) -> Array[String]:
     var errors: Array[String] = []
     # Godot JSON.parse_string() represents JSON numbers as floats (1 becomes 1.0).

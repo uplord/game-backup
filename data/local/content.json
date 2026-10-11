@@ -2,65 +2,84 @@
   "schema_version": 1,
   "content_version": "0.1.0-local",
   "definitions": {
-    "items": [
-      {
-        "id": "copper_ore",
-        "name": "Copper Ore",
-        "stackable": true
-      },
-      {
-        "id": "bronze_bar",
-        "name": "Bronze Bar",
-        "stackable": true
-      }
-    ],
-    "enemies": [
-      {
-        "id": "training_dummy",
-        "name": "Training Dummy"
-      }
-    ],
-    "skills": [
-      {
-        "id": "mining",
-        "name": "Mining"
-      }
-    ],
-    "areas": [
-      {
-        "id": "starter_town",
-        "name": "Starter Town"
-      }
-    ],
-    "resources": [
-      {
-        "id": "copper_rock",
-        "name": "Copper Rock",
-        "item_id": "copper_ore",
-        "skill_id": "mining"
-      }
-    ],
-    "recipes": [
-      {
-        "id": "bronze_bar_recipe",
-        "name": "Bronze Bar",
-        "ingredients": [
-          {
-            "item_id": "copper_ore",
-            "quantity": 2
-          }
-        ],
-        "outputs": [
-          {
-            "item_id": "bronze_bar",
-            "quantity": 1
-          }
-        ]
-      }
-    ],
-    "npcs": [],
-    "quests": [],
-    "loot_tables": [],
-    "shops": []
+	"items": [
+	  {
+		"id": "copper_ore",
+		"name": "Copper Ore",
+		"stackable": true
+	  },
+	  {
+		"id": "bronze_bar",
+		"name": "Bronze Bar",
+		"stackable": true
+	  }
+	],
+	"enemies": [
+	  {
+		"id": "training_dummy",
+		"name": "Training Dummy"
+	  }
+	],
+	"skills": [
+	  {
+		"id": "mining",
+		"name": "Mining"
+	  }
+	],
+	"areas": [
+	  {
+		"id": "starter_town",
+		"name": "Starter Town"
+	  },
+	  {
+		"id": "forest",
+		"name": "Forest"
+	  },
+	  {
+		"id": "mine",
+		"name": "Mine"
+	  }
+	],
+	"resources": [
+	  {
+		"id": "copper_rock",
+		"name": "Copper Rock",
+		"item_id": "copper_ore",
+		"skill_id": "mining"
+	  }
+	],
+	"recipes": [
+	  {
+		"id": "bronze_bar_recipe",
+		"name": "Bronze Bar",
+		"ingredients": [
+		  {
+			"item_id": "copper_ore",
+			"quantity": 2
+		  }
+		],
+		"outputs": [
+		  {
+			"item_id": "bronze_bar",
+			"quantity": 1
+		  }
+		]
+	  }
+	],
+	"npcs": [
+	  {
+		"id": "village_guide",
+		"name": "Village Guide"
+	  }
+	],
+	"quests": [],
+	"loot_tables": [],
+	"shops": [],
+	"objects": [
+	  {
+		"id": "notice_board",
+		"name": "Notice Board"
+	  }
+	]
   }
 }

@@ -1,0 +1,1 @@
+Portrait: player sits near the trailing edge based on facing; landscape: centered; world boundary clamp maintained. PhantomCameraHost controls Camera2D and follows PhantomCamera2D. Teleport areas are drawn as translucent cyan rectangles during play and in editor. Toggle show_teleport_marker on each exit. Test world/world_preview.tscn.

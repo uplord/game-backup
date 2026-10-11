@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://world/scenes/base_map.tscn" id="1_base"]
+
+[node name="Mine" instance=ExtResource("1_base")]
+map_id = "mine"
+map_size = Vector2(2700, 950)
+player_visual_scale = 0.8
+player_spawn = Vector2(450, 600)
+ground_color = Color(0.28, 0.26, 0.22, 1)

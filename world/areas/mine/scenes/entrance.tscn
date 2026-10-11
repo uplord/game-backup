@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3]
+[ext_resource type="PackedScene" path="res://world/components/world_entity.tscn" id="9_entity"]
+[ext_resource type="PackedScene" path="res://world/scenes/base_map.tscn" id="1_base"]
+[ext_resource type="Script" path="res://world/components/map_exit.gd" id="2_exit"]
+[sub_resource type="RectangleShape2D" id="Shape_0"]
+size = Vector2(120, 390)
+
+[node name="Entrance" instance=ExtResource("1_base")]
+map_id = "mine"
+scene_id = "entrance"
+map_size = Vector2(2700, 950)
+player_visual_scale = 0.95
+player_spawn = Vector2(450, 620)
+ground_color = Color(0.28, 0.26, 0.22, 1)
+
+[node name="default" type="Marker2D" parent="Spawns" index="0"]
+position = Vector2(450, 620)
+
+[node name="west" type="Marker2D" parent="Spawns" index="0"]
+position = Vector2(260, 620)
+
+[node name="Exit_west" type="Area2D" parent="Exits" index="0"]
+position = Vector2(130, 620)
+script = ExtResource("2_exit")
+destination_area = "forest"
+destination_scene = "clearing"
+destination_spawn = "east"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exits/Exit_west" index="0"]
+shape = SubResource("Shape_0")
+
+[node name="CopperRock" parent="Entities" index="0" instance=ExtResource("9_entity")]
+position = Vector2(1000, 710)
+entity_type = "resource"
+definition_id = "copper_rock"
+placement_id = "rock_01"
+marker_color = Color(0.45, 0.65, 0.7, 1)

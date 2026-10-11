@@ -1,0 +1,52 @@
+[gd_scene load_steps=5 format=3]
+[ext_resource type="PackedScene" path="res://world/components/world_entity.tscn" id="9_entity"]
+[ext_resource type="PackedScene" path="res://world/scenes/base_map.tscn" id="1_base"]
+[ext_resource type="Script" path="res://world/components/map_exit.gd" id="2_exit"]
+[sub_resource type="RectangleShape2D" id="Shape_0"]
+size = Vector2(120, 400)
+[sub_resource type="RectangleShape2D" id="Shape_1"]
+size = Vector2(120, 400)
+
+[node name="Entrance" instance=ExtResource("1_base")]
+map_id = "forest"
+scene_id = "entrance"
+map_size = Vector2(3600, 1200)
+player_visual_scale = 0.9
+player_spawn = Vector2(500, 780)
+ground_color = Color(0.13, 0.29, 0.16, 1)
+
+[node name="default" type="Marker2D" parent="Spawns" index="0"]
+position = Vector2(500, 780)
+
+[node name="west" type="Marker2D" parent="Spawns" index="0"]
+position = Vector2(250, 780)
+
+[node name="east" type="Marker2D" parent="Spawns" index="0"]
+position = Vector2(3260, 780)
+
+[node name="Exit_west" type="Area2D" parent="Exits" index="0"]
+position = Vector2(130, 800)
+script = ExtResource("2_exit")
+destination_area = "starter_town"
+destination_scene = "east_gate"
+destination_spawn = "east"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exits/Exit_west" index="0"]
+shape = SubResource("Shape_0")
+
+[node name="Exit_east" type="Area2D" parent="Exits" index="1"]
+position = Vector2(3470, 800)
+script = ExtResource("2_exit")
+destination_area = "forest"
+destination_scene = "clearing"
+destination_spawn = "west"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exits/Exit_east" index="0"]
+shape = SubResource("Shape_1")
+
+[node name="TrainingDummy" parent="Entities" index="0" instance=ExtResource("9_entity")]
+position = Vector2(1150, 780)
+entity_type = "enemy"
+definition_id = "training_dummy"
+placement_id = "dummy_01"
+marker_color = Color(0.85, 0.3, 0.3, 1)
