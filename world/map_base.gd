@@ -24,6 +24,7 @@ signal exit_requested(exit_node: UplordMapExit)
 @onready var camera: Camera2D = $Camera2D
 var targeting: UplordTargetingController
 var combat: UplordCombatController
+var gathering: UplordGatheringController
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
@@ -47,6 +48,11 @@ func _ready() -> void:
 	combat.name = "CombatController"
 	add_child(combat)
 	combat.configure(self)
+	gathering = UplordGatheringController.new()
+	gathering.name = "GatheringController"
+	add_child(gathering)
+	gathering.configure(self)
+	gathering.resource_gathered.connect(_on_resource_gathered)
 
 func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, map_size), ground_color, true)
@@ -109,3 +115,7 @@ func bind_published_entities(repository: UplordContentRepository) -> Array[Strin
 		if not entity.apply_published_definition(repository):
 			errors.append("Missing %s/%s at %s" % [entity.definition_collection(), entity.definition_id, entity.placement_id])
 	return errors
+
+func _on_resource_gathered(item_id: String, quantity: int, _skill_id: String) -> void:
+	if not Inventory.add_item(item_id, quantity):
+		push_warning("Unknown inventory item from gathering: %s" % item_id)

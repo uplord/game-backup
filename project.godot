@@ -24,6 +24,8 @@ ServiceRegistry="*res://core/service_registry.gd"
 GameState="*res://core/game_state.gd"
 GameManager="*res://core/game_manager.gd"
 PublishedContent="*res://data/published_content_service.gd"
+Inventory="*res://core/inventory_service.gd"
+InventoryUI="*res://core/inventory_ui.gd"
 
 [display]
 
