@@ -23,6 +23,7 @@ signal exit_requested(exit_node: UplordMapExit)
 @onready var player: UplordPlayerController = $Actors/PlayerController
 @onready var camera: Camera2D = $Camera2D
 var targeting: UplordTargetingController
+var combat: UplordCombatController
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
@@ -42,6 +43,10 @@ func _ready() -> void:
 	targeting.name = "TargetingController"
 	add_child(targeting)
 	targeting.configure(self)
+	combat = UplordCombatController.new()
+	combat.name = "CombatController"
+	add_child(combat)
+	combat.configure(self)
 
 func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, map_size), ground_color, true)
