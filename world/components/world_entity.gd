@@ -98,6 +98,25 @@ func definition_collection() -> String:
         "resource": return "resources"
         _: return "objects"
 
+## Runtime data comes from the published content snapshot, not the scene placeholder.
+var runtime_definition: Dictionary = {}
+var runtime_enabled: bool = false
+
+func apply_published_definition(repository: UplordContentRepository) -> bool:
+    runtime_definition = resolve_definition(repository)
+    runtime_enabled = not runtime_definition.is_empty()
+    if not runtime_enabled:
+        display_label = ""
+        push_warning("Missing published %s/%s for placement %s" % [definition_collection(), definition_id, placement_id])
+        return false
+    display_label = str(runtime_definition.get("name", definition_id))
+    # The scene controls physical spacing; CMS controls gameplay data.
+    queue_redraw()
+    return true
+
+func get_gameplay_value(key: String, fallback: Variant = null) -> Variant:
+    return runtime_definition.get(key, fallback)
+
 func resolve_definition(repository: UplordContentRepository) -> Dictionary:
     if repository == null or definition_id.is_empty():
         return {}

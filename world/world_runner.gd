@@ -16,6 +16,7 @@ var current_map: UplordMapBase
 var instance_manager: UplordMapInstanceManager
 var _transitioning: bool = false
 var _last_spawn_id: String = "default"
+var _bound_content_version: String = ""
 
 func _ready() -> void:
 	instance_manager = UplordMapInstanceManager.new()
@@ -23,6 +24,8 @@ func _ready() -> void:
 	instance_manager.default_capacity = default_instance_capacity
 	instance_manager.area_capacities = area_instance_capacities.duplicate(true)
 	add_child(instance_manager)
+	if not PublishedContent.snapshot_ready.is_connected(_on_published_snapshot_ready):
+		PublishedContent.snapshot_ready.connect(_on_published_snapshot_ready)
 	open_scene(initial_area, initial_scene, "default")
 
 func open_scene(area_id: String, scene_id: String, spawn_id: String = "default") -> bool:
@@ -67,6 +70,7 @@ func open_scene(area_id: String, scene_id: String, spawn_id: String = "default")
 	_last_spawn_id = spawn_id
 	next_map.exit_requested.connect(_on_exit_requested)
 	next_map.spawn_at(spawn_id)
+	_bind_map_content(next_map)
 	next_map.camera.snap_to_player()
 	if is_instance_valid(previous_map):
 		previous_map.queue_free()
@@ -107,3 +111,24 @@ func restore_world_location(saved: Dictionary) -> bool:
 func _exit_tree() -> void:
 	if instance_manager != null:
 		instance_manager.leave_area(local_player_id)
+
+func _bind_map_content(map_node: UplordMapBase) -> void:
+	if not is_instance_valid(map_node) or PublishedContent.repository == null:
+		return
+	var errors: Array[String] = map_node.bind_published_entities(PublishedContent.repository)
+	for issue in errors:
+		push_warning("Content binding: %s" % issue)
+	_bound_content_version = PublishedContent.repository.content_version
+
+func _on_published_snapshot_ready(_version: String, _source: String) -> void:
+	# Refresh placed entities after a new release loads, including on map transitions.
+	if is_instance_valid(current_map):
+		_bind_map_content(current_map)
+
+func get_content_definition(category: String, definition_id: String) -> Dictionary:
+	if PublishedContent.repository == null:
+		return {}
+	return PublishedContent.repository.get_definition(category, definition_id)
+
+func get_content_version() -> String:
+	return _bound_content_version

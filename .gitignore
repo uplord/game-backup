@@ -8,4 +8,5 @@ __MACOSX/
 .env.*
 !.env.example
 
-# Keep addons/, *.uid, and source asset import settings under version control.
+admin/.env.local
+admin/.env*.local

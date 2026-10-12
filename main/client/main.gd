@@ -12,7 +12,7 @@ func _ready() -> void:
             DevLogger.error("startup", issue)
         push_error("Uplord startup checks failed")
         return
-    DevLogger.info("startup", "Uplord client ready", {"content_version": diagnostics["content_version"]})
+    DevLogger.info("startup", "Uplord client ready", {"content_version": PublishedContent.repository.content_version, "content_source": PublishedContent.source})
 
     if OS.is_debug_build():
         add_child(preload("res://ui/debug/debug_overlay.gd").new())

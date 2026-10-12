@@ -23,6 +23,7 @@ EventBus="*res://core/event_bus.gd"
 ServiceRegistry="*res://core/service_registry.gd"
 GameState="*res://core/game_state.gd"
 GameManager="*res://core/game_manager.gd"
+PublishedContent="*res://data/published_content_service.gd"
 
 [display]
 

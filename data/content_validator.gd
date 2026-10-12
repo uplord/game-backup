@@ -53,8 +53,24 @@ static func validate_bundle(bundle: Dictionary) -> Array[String]:
                 _check_refs(errors, seen, "loot_tables/%s entries" % id, entry.get("entries", []), "items", "item_id")
             if type_id == "enemies" and entry.has("loot_table_id"):
                 _check_ref(errors, seen, "enemies/%s" % id, "loot_tables", entry["loot_table_id"])
-            if type_id == "resources" and entry.has("item_id"):
-                _check_ref(errors, seen, "resources/%s" % id, "items", entry["item_id"])
+            if type_id == "resources":
+                if entry.has("item_id"):
+                    _check_ref(errors, seen, "resources/%s" % id, "items", entry["item_id"])
+                if entry.has("skill_id"):
+                    _check_ref(errors, seen, "resources/%s" % id, "skills", entry["skill_id"])
+                _check_nonnegative(errors, "resources/%s required_level" % id, entry, "required_level")
+                _check_nonnegative(errors, "resources/%s respawn_seconds" % id, entry, "respawn_seconds")
+            if type_id == "enemies":
+                _check_nonnegative(errors, "enemies/%s level" % id, entry, "level")
+                _check_nonnegative(errors, "enemies/%s max_hp" % id, entry, "max_hp")
+            if type_id == "items" and entry.has("stackable") and typeof(entry["stackable"]) != TYPE_BOOL:
+                errors.append("items/%s stackable must be a boolean" % id)
+            if type_id == "quests":
+                _check_refs(errors, seen, "quests/%s rewards" % id, entry.get("rewards", []), "items", "item_id")
+            if type_id == "shops":
+                _check_refs(errors, seen, "shops/%s stock" % id, entry.get("stock", []), "items", "item_id")
+            if type_id == "recipes" and entry.has("skill_id"):
+                _check_ref(errors, seen, "recipes/%s" % id, "skills", entry["skill_id"])
     return errors
 static func _valid_id(value: String) -> bool:
     if value.is_empty():
@@ -75,3 +91,10 @@ static func _check_refs(errors: Array[String], seen: Dictionary, label: String, 
 static func _check_ref(errors: Array[String], seen: Dictionary, label: String, target: String, ref_id: Variant) -> void:
     if typeof(ref_id) != TYPE_STRING or not seen.get(target, {}).has(ref_id):
         errors.append("%s references missing %s/%s" % [label, target, ref_id])
+
+static func _check_nonnegative(errors: Array[String], label: String, entry: Dictionary, field: String) -> void:
+    if not entry.has(field):
+        return
+    var value: Variant = entry[field]
+    if (typeof(value) != TYPE_INT and typeof(value) != TYPE_FLOAT) or value < 0:
+        errors.append("%s must be a non-negative number" % label)

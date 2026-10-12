@@ -1,44 +1,61 @@
-[gd_scene load_steps=5 format=3]
-[ext_resource type="PackedScene" path="res://world/components/world_entity.tscn" id="9_entity"]
+[gd_scene format=3 uid="uid://b6rnnvjfxhxq"]
+
 [ext_resource type="PackedScene" path="res://world/scenes/base_map.tscn" id="1_base"]
-[ext_resource type="Script" path="res://world/components/map_exit.gd" id="2_exit"]
+[ext_resource type="Script" uid="uid://vp2thelexaho" path="res://world/components/map_exit.gd" id="2_exit"]
+[ext_resource type="Script" uid="uid://cdr7y68t4otqn" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="4_8i7ee"]
+[ext_resource type="PackedScene" path="res://world/components/world_entity.tscn" id="9_entity"]
+
 [sub_resource type="RectangleShape2D" id="Shape_0"]
 size = Vector2(120, 430)
 
-[node name="Plaza" instance=ExtResource("1_base")]
-map_id = "starter_town"
-scene_id = "plaza"
-map_size = Vector2(3200, 1080)
-player_visual_scale = 1.0
+[sub_resource type="Resource" id="Resource_yy4fy"]
+script = ExtResource("4_8i7ee")
+
+[node name="Plaza" unique_id=692146609 instance=ExtResource("1_base")]
 player_spawn = Vector2(500, 720)
 ground_color = Color(0.2, 0.38, 0.24, 1)
 
-[node name="default" type="Marker2D" parent="Spawns" index="0"]
-position = Vector2(500, 720)
-
-[node name="west" type="Marker2D" parent="Spawns" index="0"]
+[node name="west" type="Marker2D" parent="Spawns" index="0" unique_id=1510869825]
 position = Vector2(250, 720)
 
-[node name="Exit_east" type="Area2D" parent="Exits" index="0"]
+[node name="default" type="Marker2D" parent="Spawns" index="1" unique_id=1255469416]
+position = Vector2(500, 720)
+
+[node name="Exit_east" type="Area2D" parent="Exits" index="0" unique_id=1002909261]
+z_index = 5
 position = Vector2(3050, 720)
 script = ExtResource("2_exit")
 destination_area = "starter_town"
 destination_scene = "east_gate"
 destination_spawn = "west"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Exits/Exit_east" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exits/Exit_east" index="0" unique_id=525753337]
 shape = SubResource("Shape_0")
 
-[node name="Guide" parent="Entities" index="0" instance=ExtResource("9_entity")]
+[node name="NoticeBoard" parent="Entities" index="0" unique_id=1682539265 instance=ExtResource("9_entity")]
+position = Vector2(2200, 760)
+collision_layer = 2
+collision_mask = 0
+entity_type = "object"
+definition_id = "notice_board"
+placement_id = "board_01"
+marker_color = Color(0.75, 0.55, 0.2, 1)
+
+[node name="Guide" parent="Entities" index="1" unique_id=2060838910 instance=ExtResource("9_entity")]
 position = Vector2(1100, 760)
+collision_layer = 2
+collision_mask = 0
 entity_type = "npc"
 definition_id = "village_guide"
 placement_id = "guide_01"
 marker_color = Color(0.25, 0.55, 0.95, 1)
 
-[node name="NoticeBoard" parent="Entities" index="0" instance=ExtResource("9_entity")]
-position = Vector2(2200, 760)
-entity_type = "object"
-definition_id = "notice_board"
-placement_id = "board_01"
-marker_color = Color(0.75, 0.55, 0.2, 1)
+[node name="Camera2D" parent="." index="9"]
+top_level = true
+
+[node name="PhantomCameraHost" parent="Camera2D" index="0"]
+process_priority = 300
+process_physics_priority = 300
+
+[node name="PhantomCamera2D" parent="." index="10"]
+tween_resource = SubResource("Resource_yy4fy")

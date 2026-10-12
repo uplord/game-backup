@@ -92,3 +92,15 @@ func validate_world_entities(repository: UplordContentRepository) -> Array[Strin
 		if entity.definition_id.is_empty() or not repository.has_definition(entity.definition_collection(), entity.definition_id):
 			errors.append("Unknown %s definition '%s' in %s/%s" % [entity.entity_type, entity.definition_id, map_id, scene_id])
 	return errors
+
+## Bind all placed entities to the active published snapshot. Scene layout stays in Godot.
+func bind_published_entities(repository: UplordContentRepository) -> Array[String]:
+	var errors: Array[String] = []
+	if repository == null:
+		errors.append("Published content repository unavailable")
+		return errors
+	errors.append_array(validate_world_entities(repository))
+	for entity in list_world_entities():
+		if not entity.apply_published_definition(repository):
+			errors.append("Missing %s/%s at %s" % [entity.definition_collection(), entity.definition_id, entity.placement_id])
+	return errors

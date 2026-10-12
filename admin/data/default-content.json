@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "content_version": "0.2.0-local",
+  "definitions": {
+    "items": [
+      {
+        "id": "copper_ore",
+        "name": "Copper Ore",
+        "stackable": true
+      },
+      {
+        "id": "bronze_bar",
+        "name": "Bronze Bar",
+        "stackable": true
+      }
+    ],
+    "enemies": [
+      {
+        "id": "training_dummy",
+        "name": "Training Dummy",
+        "level": 1,
+        "max_hp": 100,
+        "interaction_label": "Engage"
+      }
+    ],
+    "skills": [
+      {
+        "id": "mining",
+        "name": "Mining"
+      }
+    ],
+    "areas": [
+      {
+        "id": "starter_town",
+        "name": "Starter Town"
+      },
+      {
+        "id": "forest",
+        "name": "Forest"
+      },
+      {
+        "id": "mine",
+        "name": "Mine"
+      }
+    ],
+    "resources": [
+      {
+        "id": "copper_rock",
+        "name": "Copper Rock",
+        "item_id": "copper_ore",
+        "skill_id": "mining",
+        "required_level": 1,
+        "respawn_seconds": 30,
+        "interaction_label": "Mine"
+      }
+    ],
+    "recipes": [
+      {
+        "id": "bronze_bar_recipe",
+        "name": "Bronze Bar",
+        "ingredients": [
+          {
+            "item_id": "copper_ore",
+            "quantity": 2
+          }
+        ],
+        "outputs": [
+          {
+            "item_id": "bronze_bar",
+            "quantity": 1
+          }
+        ]
+      }
+    ],
+    "npcs": [
+      {
+        "id": "village_guide",
+        "name": "Village Guide",
+        "interaction_label": "Talk"
+      }
+    ],
+    "quests": [],
+    "loot_tables": [],
+    "shops": [],
+    "objects": [
+      {
+        "id": "notice_board",
+        "name": "Notice Board",
+        "interaction_label": "Inspect"
+      }
+    ]
+  }
+}
